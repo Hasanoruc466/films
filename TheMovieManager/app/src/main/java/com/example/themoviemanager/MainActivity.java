@@ -11,6 +11,8 @@ import android.text.TextWatcher;
 import android.util.Log;
 
 import com.example.themoviemanager.databinding.ActivityMainBinding;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputLayout;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -22,13 +24,27 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
+    private TextInputLayout passwordTIL, emailTIL;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        binding.textInputLayoutEmail.getEditText().addTextChangedListener(new TextWatcher() {
+        passwordTIL = binding.textInputLayoutPassword;
+        emailTIL = binding.textInputLayoutEmail;
+        Pattern password = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&–:;',?$]).{6,20}$");
+        Pattern emailAddress = Pattern
+                .compile("[a-zA-Z0-9+._%-+]{1,256}" + "@"
+                        + "[a-zA-Z0-9][a-zA-Z0-9-]{0,64}" + "(" + "."
+                        + "[a-zA-Z0-9][a-zA-Z0-9-]{0,25}" + ")+");
+        setEmailTIL(emailAddress);
+        setPasswordTIL(password);
+        setButtonClick(emailAddress, password);
+    }
+
+    private void setEmailTIL(Pattern email){
+        emailTIL.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -36,16 +52,12 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                Pattern emailAddress = Pattern
-                        .compile("[a-zA-Z0-9+._%-+]{1,256}" + "@"
-                                + "[a-zA-Z0-9][a-zA-Z0-9-]{0,64}" + "(" + "."
-                                + "[a-zA-Z0-9][a-zA-Z0-9-]{0,25}" + ")+");
-                if(!emailAddress.matcher(charSequence).matches())
+                if(!email.matcher(charSequence).matches())
                 {
-                    binding.textInputLayoutEmail.setError("Your email should be like \"abc@d.e\".");
-                    binding.textInputLayoutEmail.setErrorEnabled(true);
+                    emailTIL.setError("Your email should be like \"abc@d.e\".");
+                    emailTIL.setErrorEnabled(true);
                 } else {
-                    binding.textInputLayoutEmail.setErrorEnabled(false);
+                    emailTIL.setErrorEnabled(false);
                 }
             }
 
@@ -54,23 +66,25 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        binding.textInputLayoutPassword.getEditText().addTextChangedListener(new TextWatcher() {
+    }
+
+    private void setPasswordTIL(Pattern password){
+        passwordTIL.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
-/*
-                    */
+            /*
+             */
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                Pattern password = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&–:;',?$]).{6,20}$");
                 if(!password.matcher(charSequence).matches()){
-                    binding.textInputLayoutPassword.setError("* At least one digit\n* At least one lowercase letter\n" +
+                    passwordTIL.setError("* At least one digit\n* At least one lowercase letter\n" +
                             "* At least one uppercase letter\n* At least one special character (!@#&–:;',?$)\n* At least 6 characters");
-                    binding.textInputLayoutPassword.setErrorEnabled(true);
+                    passwordTIL.setErrorEnabled(true);
                 }
                 else
-                    binding.textInputLayoutPassword.setErrorEnabled(false);
+                    passwordTIL.setErrorEnabled(false);
             }
 
             @Override
@@ -78,8 +92,14 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void setButtonClick(Pattern email, Pattern pass){
         binding.buttonLogin.setOnClickListener(v->{
-            startActivity(new Intent(MainActivity.this, MenuActivity.class));
+            if(email.matcher( binding.emailET.getText()).matches() && pass.matcher(binding.passwordET.getText()).matches())
+                startActivity(new Intent(MainActivity.this, MenuActivity.class));
+            else
+                Snackbar.make(v, "Email or password is incorrect", Snackbar.LENGTH_SHORT).show();
         });
     }
 }

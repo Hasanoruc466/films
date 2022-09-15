@@ -3,11 +3,19 @@ package com.example.themoviemanager;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
+import com.example.themoviemanager.dao.APIDao;
+import com.example.themoviemanager.dao.Databases;
+import com.example.themoviemanager.dao.MoviesDao;
 import com.example.themoviemanager.databinding.ActivityDetailsBinding;
+import com.example.themoviemanager.models.Favorites;
+import com.example.themoviemanager.models.Responses;
+import com.example.themoviemanager.models.Results;
+import com.example.themoviemanager.models.WatchList;
+import com.example.themoviemanager.retrofit.APIUtils;
 import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
 
@@ -36,48 +44,19 @@ public class DetailsActivity extends AppCompatActivity {
         databases = Databases.getDatabases(this);
         dao = databases.getMoviesDao();
         apiDao = APIUtils.getSearch();
+        binding.imageViewBack.setOnClickListener(v->{
+            startActivity(new Intent(DetailsActivity.this, MenuActivity.class));
+        });
         int which = getIntent().getIntExtra("which", 0);
         if(which == 0){
             Results results = (Results) getIntent().getSerializableExtra("result");
             setViews(results);
         }
         else if(which == 1){
-            Favorites fav = (Favorites) getIntent().getSerializableExtra("fav");
-            apiDao.getSearch("10ecb5b341b4d8b5894c009609610670", fav.getMovie_title()).enqueue(new Callback<Responses>() {
-                @Override
-                public void onResponse(Call<Responses> call, Response<Responses> response) {
-                    List<Results> resultsList = response.body().getResults();
-                    for(int i=0; i<resultsList.size(); i++){
-                        if(fav.getMovie_id() == Integer.parseInt(resultsList.get(i).getId())){
-                            setViews(resultsList.get(i));
-                        }
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Responses> call, Throwable t) {
-                    Snackbar.make(binding.imageView2, t.getMessage(), Snackbar.LENGTH_SHORT).show();
-                }
-            });
+            getFav();
         }
         else if(which == 2){
-            WatchList watchList = (WatchList) getIntent().getSerializableExtra("watchlist");
-            apiDao.getSearch("10ecb5b341b4d8b5894c009609610670", watchList.getMovie_title()).enqueue(new Callback<Responses>() {
-                @Override
-                public void onResponse(Call<Responses> call, Response<Responses> response) {
-                    List<Results> resultsList = response.body().getResults();
-                    for(int i=0; i<resultsList.size(); i++){
-                        if(watchList.getMovie_id() == Integer.parseInt(resultsList.get(i).getId())){
-                            setViews(resultsList.get(i));
-                        }
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Responses> call, Throwable t) {
-                    Snackbar.make(binding.imageView2, t.getMessage(), Snackbar.LENGTH_SHORT).show();
-                }
-            });
+            getWatch();
         }
     }
 
@@ -238,6 +217,46 @@ public class DetailsActivity extends AppCompatActivity {
                                 }
                             });
                 }
+            }
+        });
+    }
+
+    private void getFav(){
+        Favorites fav = (Favorites) getIntent().getSerializableExtra("fav");
+        apiDao.getSearch("10ecb5b341b4d8b5894c009609610670", fav.getMovie_title()).enqueue(new Callback<Responses>() {
+            @Override
+            public void onResponse(Call<Responses> call, Response<Responses> response) {
+                List<Results> resultsList = response.body().getResults();
+                for(int i=0; i<resultsList.size(); i++){
+                    if(fav.getMovie_id() == Integer.parseInt(resultsList.get(i).getId())){
+                        setViews(resultsList.get(i));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Responses> call, Throwable t) {
+                Snackbar.make(binding.imageView2, t.getMessage(), Snackbar.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void getWatch(){
+        WatchList watchList = (WatchList) getIntent().getSerializableExtra("watchlist");
+        apiDao.getSearch("10ecb5b341b4d8b5894c009609610670", watchList.getMovie_title()).enqueue(new Callback<Responses>() {
+            @Override
+            public void onResponse(Call<Responses> call, Response<Responses> response) {
+                List<Results> resultsList = response.body().getResults();
+                for(int i=0; i<resultsList.size(); i++){
+                    if(watchList.getMovie_id() == Integer.parseInt(resultsList.get(i).getId())){
+                        setViews(resultsList.get(i));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Responses> call, Throwable t) {
+                Snackbar.make(binding.imageView2, t.getMessage(), Snackbar.LENGTH_SHORT).show();
             }
         });
     }

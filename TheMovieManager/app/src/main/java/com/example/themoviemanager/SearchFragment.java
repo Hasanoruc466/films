@@ -11,9 +11,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
+import com.example.themoviemanager.dao.APIDao;
 import com.example.themoviemanager.databinding.FragmentSearchBinding;
+import com.example.themoviemanager.models.Responses;
+import com.example.themoviemanager.models.Results;
+import com.example.themoviemanager.retrofit.APIUtils;
+import com.example.themoviemanager.rvadapter.SearchRVAdapter;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
@@ -36,6 +40,13 @@ public class SearchFragment extends Fragment {
         apiDao = APIUtils.getSearch();
         binding.rv.setHasFixedSize(true);
         binding.rv.setLayoutManager(new LinearLayoutManager(requireContext()));
+        setSearchTIL();
+
+
+        return view;
+    }
+
+    private void setSearchTIL(){
         binding.textInputLayoutSearch.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -57,8 +68,8 @@ public class SearchFragment extends Fragment {
 
                     @Override
                     public void onFailure(Call<Responses> call, Throwable t) {
-                            Snackbar.make(binding.textInputLayoutSearch, t.getMessage(), Snackbar.LENGTH_SHORT).show();
-                        }
+                        Snackbar.make(binding.textInputLayoutSearch, t.getMessage(), Snackbar.LENGTH_SHORT).show();
+                    }
                 });
 
             }
@@ -68,8 +79,5 @@ public class SearchFragment extends Fragment {
 
             }
         });
-
-
-        return view;
     }
 }

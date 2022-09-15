@@ -9,7 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.themoviemanager.dao.Databases;
+import com.example.themoviemanager.dao.MoviesDao;
 import com.example.themoviemanager.databinding.FragmentFavoritesBinding;
+import com.example.themoviemanager.models.Favorites;
+import com.example.themoviemanager.rvadapter.FavoirtesRVAdapter;
 
 import java.util.List;
 
@@ -32,6 +36,11 @@ public class FavoritesFragment extends Fragment {
         binding.rvFavorites.setLayoutManager(new LinearLayoutManager(requireContext()));
         databases = Databases.getDatabases(requireContext());
         dao = databases.getMoviesDao();
+        getFavorites();
+        return view;
+    }
+
+    private void getFavorites(){
         dao.getFavorites().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleObserver<List<Favorites>>() {
@@ -51,6 +60,11 @@ public class FavoritesFragment extends Fragment {
 
                     }
                 });
-        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getFavorites();
     }
 }
