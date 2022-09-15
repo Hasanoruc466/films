@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Hasan Oruc/Desktop/Uygulamalarim/TheMovieManager/app/src/main/res/drawable-v24/vector_favorites_red.xml" value="0.229" />
+        <entry key="..\:/Hasan Oruc/Desktop/Uygulamalarim/TheMovieManager/app/src/main/res/drawable-v24/vector_favorites_white.xml" value="0.229" />
+        <entry key="..\:/Hasan Oruc/Desktop/Uygulamalarim/TheMovieManager/app/src/main/res/drawable-v24/vector_list_blue.xml" value="0.229" />
+        <entry key="..\:/Hasan Oruc/Desktop/Uygulamalarim/TheMovieManager/app/src/main/res/drawable-v24/vector_list_white.xml" value="0.229" />
+        <entry key="..\:/Hasan Oruc/Desktop/Uygulamalarim/TheMovieManager/app/src/main/res/drawable/vector_favorites.xml" value="0.229" />
+        <entry key="..\:/Hasan Oruc/Desktop/Uygulamalarim/TheMovieManager/app/src/main/res/drawable/vector_list.xml" value="0.229" />
+        <entry key="..\:/Hasan Oruc/Desktop/Uygulamalarim/TheMovieManager/app/src/main/res/drawable/vector_movie.xml" value="0.229" />
+        <entry key="..\:/Hasan Oruc/Desktop/Uygulamalarim/TheMovieManager/app/src/main/res/drawable/vector_star.xml" value="0.229" />
+        <entry key="..\:/Hasan Oruc/Desktop/Uygulamalarim/TheMovieManager/app/src/main/res/layout/activity_details.xml" value="0.25833333333333336" />
+        <entry key="..\:/Hasan Oruc/Desktop/Uygulamalarim/TheMovieManager/app/src/main/res/layout/activity_main.xml" value="0.4" />
+        <entry key="..\:/Hasan Oruc/Desktop/Uygulamalarim/TheMovieManager/app/src/main/res/layout/activity_menu.xml" value="0.25833333333333336" />
+        <entry key="..\:/Hasan Oruc/Desktop/Uygulamalarim/TheMovieManager/app/src/main/res/layout/card_other.xml" value="0.25833333333333336" />
+        <entry key="..\:/Hasan Oruc/Desktop/Uygulamalarim/TheMovieManager/app/src/main/res/layout/card_search.xml" value="0.25833333333333336" />
+        <entry key="..\:/Hasan Oruc/Desktop/Uygulamalarim/TheMovieManager/app/src/main/res/layout/fragment_favorites.xml" value="0.24427083333333333" />
+        <entry key="..\:/Hasan Oruc/Desktop/Uygulamalarim/TheMovieManager/app/src/main/res/layout/fragment_search.xml" value="0.25833333333333336" />
+        <entry key="..\:/Hasan Oruc/Desktop/Uygulamalarim/TheMovieManager/app/src/main/res/layout/fragment_watch_list.xml" value="0.264" />
+        <entry key="..\:/Hasan Oruc/Desktop/Uygulamalarim/TheMovieManager/app/src/main/res/menu/nav_menu.xml" value="0.21196581196581196" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
